@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Attendance Management</title>
+
+    <style>
+        body{
+            font-family: Arial;
+            background-color: rgb(50, 113, 190);
+        }
+
+
+        h2{
+            text-align: center;
+        }
+
+        form{
+            width:300px;
+            margin:auto;
+        }
+
+        input{
+            width:100%;
+            padding:5px;
+            margin:5px;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            margin-top:20px;
+            background:rgb(235, 231, 231);
+        }
+
+        table,th,td{
+            border:1px solid rgb(215, 209, 209);
+        }
+
+        th,td{
+            padding:8px;
+            text-align:center;
+        }
+    </style>
+</head>
+
+<body>
+
+
+<h2>Employee Attendance Management</h2>
+
+<form onsubmit="addAttendance(); return false;">
+
+Employee ID<br>
+<input type="text" id="empId"><br>
+
+Employee Name<br>
+<input type="text" id="empName"><br>
+
+Department<br>
+<input type="text" id="department"><br>
+
+Working Days<br>
+<input type="number" id="workingDays"><br>
+
+Present Days<br>
+<input type="number" id="presentDays"><br>
+
+Leave Days<br>
+<input type="number" id="leaveDays"><br>
+
+<input type="submit" value="Submit">
+
+</form>
+
+<h2>Attendance Report</h2>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Attendance %</th>
+        <th>Status</th>
+    </tr>
+
+    <tbody id="attendanceTable"></tbody>
+
+</table>
+
+<script>
+
+function addAttendance(){
+
+    var id=document.getElementById("empId").value;
+    var name=document.getElementById("empName").value;
+    var dept=document.getElementById("department").value;
+    var work=document.getElementById("workingDays").value;
+    var present=document.getElementById("presentDays").value;
+    var leave=document.getElementById("leaveDays").value;
+
+    if(id=="" || name=="" || dept=="" || work=="" || present=="" || leave==""){
+        alert("Please fill all fields");
+        return;
+    }
+
+    if(present>work){
+        alert("Present Days cannot be greater than Working Days");
+        return;
+    }
+
+    if(leave>work){
+        alert("Leave Days cannot be greater than Working Days");
+        return;
+    }
+
+    var percentage=(present/work)*100;
+    var status;
+
+    if(percentage>=90){
+        status="Excellent";
+    }
+    else if(percentage>=75){
+        status="Good";
+    }
+    else if(percentage>=50){
+        status="Average";
+    }
+    else{
+        status="Poor";
+    }
+
+    var table=document.getElementById("attendanceTable");
+    var row=table.insertRow();
+
+    row.insertCell(0).innerHTML=id;
+    row.insertCell(1).innerHTML=name;
+    row.insertCell(2).innerHTML=percentage.toFixed(0)+"%";
+    row.insertCell(3).innerHTML=status;
+
+    document.querySelector("form").reset();
+
+}
+
+</script>
+
+</body>
+</html>
